@@ -12,3 +12,22 @@ bd_edo <-
 
 ### Unir bases de datos ----
 bd <- bind_rows(bd_fed, bd_edo)
+
+
+### Transformar y renombrar diversas variables ----
+bd <- 
+  bd %>% 
+  # Cambiar texto a altas y bajas
+  mutate(tipo_de_proceso = str_to_sentence(tipo_de_proceso),
+         ambito = str_to_sentence(ambito),
+         entidad_federativa = str_to_title(entidad_federativa),
+         cargo = str_to_title(cargo),
+         sujeto_obligado = str_to_title(sujeto_obligado),
+         nombre_completo = str_to_title(nombre_completo)) %>% 
+  # Cambiar texto a altas y bajas
+  mutate(ingresos_percent_determinado_respecto_del_reportado = round(ingresos_percent_determinado_respecto_del_reportado*100, 1),
+         gastos_percent_determinado_respecto_del_reportado = round(gastos_percent_determinado_respecto_del_reportado*100, 1),
+         percent_del_tope_gastado = round(percent_del_tope_gastado*100, 1)) %>% 
+  # Renombrar
+  rename(entidad = entidad_federativa,
+         por_tope = percent_del_tope_gastado)
