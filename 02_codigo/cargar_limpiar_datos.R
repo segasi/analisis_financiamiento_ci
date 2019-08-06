@@ -31,3 +31,9 @@ bd <-
   # Renombrar
   rename(entidad = entidad_federativa,
          por_tope = percent_del_tope_gastado)
+
+
+### Eliminar 812 candidatas y candidatos cuyos gastos totales fueron de $0 ----
+bd <- 
+  bd %>% 
+  filter(gastos_totales != 0)
