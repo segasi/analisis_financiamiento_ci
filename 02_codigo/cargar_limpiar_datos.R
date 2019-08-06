@@ -9,3 +9,6 @@ bd_fed <-
 bd_edo <- 
   read_excel("01_datos/Saldos Finales - LOCAL 180828.xlsx") %>% 
   clean_names()
+
+### Unir bases de datos ----
+bd <- bind_rows(bd_fed, bd_edo)
