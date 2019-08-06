@@ -37,3 +37,10 @@ bd <-
 bd <- 
   bd %>% 
   filter(gastos_totales != 0)
+
+
+### Crear divers variables ----
+bd <- 
+  bd %>% 
+  ### Dummy categoríca para identificar si la candidatura es indepenidente o de otro tipo
+  mutate(dummy_ci = ifelse(tipo_asociacion == "Candidatura Independiente", "C. Independiente", "Otros"))
