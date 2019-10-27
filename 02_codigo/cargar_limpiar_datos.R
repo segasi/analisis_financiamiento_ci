@@ -11,12 +11,12 @@ bd_edo <-
   clean_names()
 
 ### Unir bases de datos ----
-bd <- bind_rows(bd_fed, bd_edo)
+bd_inicial <- bind_rows(bd_fed, bd_edo)
 
 
 ### Transformar y renombrar diversas variables ----
-bd <- 
-  bd %>% 
+bd_inicial <- 
+  bd_inicial %>% 
   # Cambiar texto a altas y bajas
   mutate(tipo_de_proceso = str_to_sentence(tipo_de_proceso),
          ambito = str_to_sentence(ambito),
@@ -36,13 +36,13 @@ bd <-
 
 
 ### Eliminar 812 candidatas y candidatos cuyos gastos totales fueron de $0 ----
-bd <- 
-  bd %>% 
+bd_inicial <- 
+  bd_inicial %>% 
   filter(gastos_totales != 0)
 
 
 ### Crear divers variables ----
-bd <- 
-  bd %>% 
+bd_inicial <- 
+  bd_inicial %>% 
   ### Dummy categoríca para identificar si la candidatura es indepenidente o de otro tipo
   mutate(dummy_ci = ifelse(tipo_asociacion == "Candidatura Independiente", "C. Independiente", "Otros"))
