@@ -22,6 +22,8 @@ bd <-
          ambito = str_to_sentence(ambito),
          entidad_federativa = str_to_title(entidad_federativa),
          cargo = str_to_title(cargo),
+         cargo = str_replace(cargo, "Mr", "MR"),
+         cargo = str_replace(cargo, "Rp", "RP"),
          sujeto_obligado = str_to_title(sujeto_obligado),
          nombre_completo = str_to_title(nombre_completo)) %>% 
   # Cambiar texto a altas y bajas
