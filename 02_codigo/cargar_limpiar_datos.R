@@ -35,12 +35,6 @@ bd_inicial <-
          por_tope = percent_del_tope_gastado)
 
 
-### Eliminar 812 candidatas y candidatos cuyos gastos totales fueron de $0 ----
-bd_inicial <- 
-  bd_inicial %>% 
-  filter(gastos_totales != 0)
-
-
 ### Crear divers variables ----
 bd_inicial <- 
   bd_inicial %>% 
