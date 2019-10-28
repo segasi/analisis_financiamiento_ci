@@ -39,4 +39,6 @@ bd_inicial <-
 bd_inicial <- 
   bd_inicial %>% 
   ### Dummy categoríca para identificar si la candidatura es indepenidente o de otro tipo
-  mutate(dummy_ci = ifelse(tipo_asociacion == "Candidatura Independiente", "C. Independiente", "Otros"))
+  mutate(dummy_ci = ifelse(tipo_asociacion == "Candidatura Independiente", "C. Independiente", "Otros"), 
+         cargo = case_when(cargo == "Jefe De Gobierno" ~ "Jefe de Gobierno",
+                           TRUE ~ cargo))
