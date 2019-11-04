@@ -4,7 +4,7 @@ source("02_codigo/paquetes_setup_tema.R")
 ### Importar datos ----
 
 # Base de datos de saldos de fiscalización
-bd_saldos_inicial <- 
+bd_saldos <- 
   read_excel("01_datos/Saldos Finales - FEDERAL 180828.xlsx") %>% 
   clean_names()
 
@@ -16,8 +16,8 @@ bd_ingresos <-
 
 
 ### Transformar y renombrar diversas variables ----
-bd_saldos_inicial <- 
-  bd_saldos_inicial %>% 
+bd_saldos <- 
+  bd_saldos %>% 
   # Cambiar texto a altas y bajas
   mutate(tipo_de_proceso = str_to_sentence(tipo_de_proceso),
          ambito = str_to_sentence(ambito),
@@ -37,8 +37,8 @@ bd_saldos_inicial <-
 
 
 ### Crear divers variables ----
-bd_saldos_inicial <- 
-  bd_saldos_inicial %>% 
+bd_saldos <- 
+  bd_saldos %>% 
   ### Dummy categoríca para identificar si la candidatura es indepenidente o de otro tipo
   mutate(dummy_ci = ifelse(tipo_asociacion == "Candidatura Independiente", "C. Independiente", "Otros"), 
          cargo = case_when(cargo == "Jefe De Gobierno" ~ "Jefe de Gobierno",
