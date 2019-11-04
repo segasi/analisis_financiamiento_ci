@@ -2,16 +2,17 @@
 source("02_codigo/paquetes_setup_tema.R")
 
 ### Importar datos ----
+
+# Base de datos de saldos de fiscalización
 bd_fed <- 
   read_excel("01_datos/Saldos Finales - FEDERAL 180828.xlsx") %>% 
   clean_names()
 
-bd_edo <- 
-  read_excel("01_datos/Saldos Finales - LOCAL 180828.xlsx") %>% 
+# Base de datos del informe de ingresos por candidato
+ingresos <- 
+  read_excel("01_datos/CF2-Anexo-Ingreso-por-Rubro-Campaña-FEDERAL_2018_07_17.xlsx") %>% 
   clean_names()
 
-### Unir bases de datos ----
-bd_inicial <- bind_rows(bd_fed, bd_edo)
 
 
 ### Transformar y renombrar diversas variables ----
