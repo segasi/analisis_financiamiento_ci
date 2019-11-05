@@ -2,6 +2,36 @@
 source("02_codigo/paquetes_setup_tema.R")
 source("02_codigo/cargar_limpiar_datos.R")
 
+### Análisis de frecuencias ----
+
+# Candidaturas por tipo usando bd_saldos_inicial
+bd_saldos_inicial %>% 
+  filter(ambito == "Federal") %>% 
+  count(cargo, sort = T) %>% 
+  mutate(total = sum(n),
+         porcentaje = round((n/total)*100, 1))  
+
+# Candidaturas por cargo, bd_saldos
+bd_saldos %>% 
+  count(cargo, sort = T) %>% 
+  mutate(total = sum(n),
+         porcentaje = round((n/total)*100, 2)) %>%   
+  print(n = Inf) %>% 
+  write_csv("04_datos_generados/frecuencia_candidaturas_por_cargo.csv")
+
+# Candidaturas por cargo y tipo de candidatura, bd bd_saldos
+bd_saldos %>% 
+  group_by(dummy_ci) %>% 
+  count(cargo, sort = T) %>% 
+  ungroup() %>% 
+  arrange(cargo, dummy_ci) %>% 
+  group_by(cargo) %>% 
+  mutate(total = sum(n),
+         porcentaje = round((n/total)*100, 2)) %>%  
+  ungroup() %>% 
+  print(n = Inf) %>% 
+  write_csv("04_datos_generados/frecuencia_candidaturas_por_tipo_y_cargo.csv")
+
 ### Gráfica y tabla de ingresos privados respecto a total de ingresos de cada CI ----
 bd_ingresos %>% 
   filter(str_detect(tipo_asociacion, "Inde")) %>% 
