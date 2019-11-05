@@ -59,3 +59,12 @@ bd_saldos_inicial <-
          cargo = case_when(cargo == "Jefe De Gobierno" ~ "Jefe de Gobierno",
                            TRUE ~ cargo))
 
+
+### Generar bd_saldos con un subconjunto de observaciones de bd_saldos_inicial -----
+bd_saldos <- 
+  bd_saldos_inicial %>% 
+  filter(ambito == "Federal") %>%
+  # Filtro por cargo por el que compite
+  filter(cargo %in% c("Presidente", "Senadores MR", "Diputado Federal MR")) %>%
+  # Filtro por gasto
+  filter(gastos_reportados > 0)
