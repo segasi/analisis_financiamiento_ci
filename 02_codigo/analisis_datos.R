@@ -117,3 +117,69 @@ bd_ingresos %>%
   print(n = Inf) %>% 
   write_csv("04_datos_generados/porcentaje_ingresos_privados_respecto_tope_gastos.csv")
 
+
+### Gráfica y tabla del porcentaje de gastos totales de cada candidato respecto a su tope de gastos ----
+lista_cargos <- 
+  bd_saldos %>% 
+  distinct(as.character(cargo)) %>% 
+  pull() 
+
+lista_cargos <- lista_cargos[c(1, 2, 3)]
+
+# Gráfica
+bd_saldos <- 
+  bd_saldos %>% 
+  mutate(cargo = fct_rev(fct_relevel(cargo, "Presidente", "Senadores MR", "Diputado Federal MR")),
+         cargo_numerico = as.numeric(cargo)) 
+
+bd_saldos %>% 
+  arrange(desc(dummy_ci)) %>% 
+  ggplot() +
+  geom_jitter(aes(x = por_tope,
+                  y = cargo_numerico,
+                  color = dummy_ci,
+                  alpha = dummy_ci),
+              size = 2,
+              height = 0.1) +
+  scale_x_continuous(limits = c(-1, 155),
+                     breaks = c(seq(0, 100, 10), 125, 150), 
+                     expand = c(0, 0)) +
+  scale_y_continuous(breaks = 1:3, labels = rev(lista_cargos)) +
+  scale_color_manual(values = c("salmon", "grey70")) +
+  scale_alpha_manual(values = c(0.7, 0.4)) +
+  guides(colour = guide_legend(override.aes = list(size = 5)),
+         alpha = FALSE) +
+  # facet_zoom(x = por_tope < 115) +
+  labs(title = str_wrap(str_to_upper("Gráfica 3. Porcentaje de gastos de cada candidatura respecto a su tope, por tipo de candidatura"), width = 45),
+       x = "\n% de gastos respecto al tope   ",
+       y = "",
+       caption = "", 
+       color = NULL) +
+  theme(text = element_text(family = "Didact Gothic Regular", color = "grey35"),
+        plot.title = element_text(size = 28, face = "bold", margin = margin(10,0,20,0), family = "Trebuchet MS Bold", color = "grey25"),
+        plot.subtitle = element_text(size = 16, face = "bold", colour = "#666666", margin = margin(0, 0, 20, 0), family = "Didact Gothic Regular"),
+        plot.caption = element_text(hjust = 0, size = 15),
+        panel.background = element_rect(fill = "transparent", color = "transparent"),
+        panel.grid = element_line(linetype = 3, color = "grey80", size = 0.5), 
+        panel.grid.major.y = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = c(0.867, 0.9),
+        legend.background = element_rect(fill = "transparent", color = "transparent"),
+        legend.title = element_text(size = 16, face = "bold", family = "Trebuchet MS Bold"),
+        legend.direction = "vertical",
+        legend.text = element_text(size = 13, family = "Didact Gothic Regular"),
+        legend.key = element_rect(fill = "transparent", color = "transparent"),
+        axis.title = element_text(size = 18, hjust = 1, face = "bold", margin = margin(0,0,0,0), family = "Didact Gothic Regular"),
+        axis.text = element_text(size = 16, face = "bold", family = "Didact Gothic Regular"),
+        axis.ticks = element_blank()) +
+  ggsave("03_graficas/g3_porcentaje_gastos_vs_tope_todos_con_zoom.png", width = 12, height = 8, dpi = 200)
+
+
+# Tabla
+bd_saldos %>% 
+  arrange(-por_tope) %>% 
+  select(nombre_completo, cargo, dummy_ci, gastos_totales, tope_de_gastos, por_tope) %>% 
+  print(n = Inf) %>% 
+  write_csv("04_datos_generados/porcentaje_gastos_totales_respecto_tope_de_gastos.csv")
+
+
