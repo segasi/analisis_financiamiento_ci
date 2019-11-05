@@ -16,6 +16,8 @@ bd_ingresos <-
 
 
 ### Transformar y renombrar diversas variables ----
+
+# BD saldos
 bd_saldos_inicial <- 
   bd_saldos_inicial %>% 
   # Cambiar texto a altas y bajas
@@ -36,7 +38,20 @@ bd_saldos_inicial <-
          por_tope = percent_del_tope_gastado)
 
 
-### Crear divers variables ----
+# BD ingresos
+bd_ingresos <- 
+  bd_ingresos %>% 
+  # Cambiar texto a altas y bajas
+  mutate(tipo_de_proceso = str_to_sentence(tipo_de_proceso),
+         ambito = str_to_sentence(ambito),
+         entidad_federativa = str_to_title(entidad_federativa),
+         cargo_de_eleccion = str_to_title(cargo_de_eleccion),
+         cargo_de_eleccion = str_replace(cargo_de_eleccion, "Mr", "MR"),
+         cargo_de_eleccion = str_replace(cargo_de_eleccion, "Rp", "RP"),
+         sujeto_obligado = str_to_title(sujeto_obligado),
+         nombre_completo = str_to_title(nombre_completo))
+
+### Crear diversas variables ----
 bd_saldos_inicial <- 
   bd_saldos_inicial %>% 
   ### Dummy categoríca para identificar si la candidatura es indepenidente o de otro tipo
