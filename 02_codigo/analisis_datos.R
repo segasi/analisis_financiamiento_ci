@@ -175,11 +175,29 @@ bd_saldos %>%
   ggsave("03_graficas/g3_porcentaje_gastos_vs_tope_todos_con_zoom.png", width = 12, height = 8, dpi = 200)
 
 
-# Tabla
+# Tabla todos los candidatos
 bd_saldos %>% 
   arrange(-por_tope) %>% 
   select(nombre_completo, cargo, dummy_ci, gastos_totales, tope_de_gastos, por_tope) %>% 
   print(n = Inf) %>% 
   write_csv("04_datos_generados/porcentaje_gastos_totales_respecto_tope_de_gastos.csv")
 
+# Tabla candidatos independientes
+bd_saldos %>% 
+  filter(str_detect(dummy_ci, "Ind")) %>% 
+  arrange(-por_tope) %>% 
+  select(nombre_completo, cargo, dummy_ci, gastos_totales, tope_de_gastos, por_tope) %>% 
+  print(n = Inf)
 
+# Frecuencia de candidaturas que cumplen diversas condiciones
+bd_saldos %>% 
+  filter(str_detect(cargo, "Sen")) %>% 
+  group_by(dummy_ci) %>% 
+  summarise(porcentaje = (sum(por_tope < 30)/n())*100) %>% 
+  ungroup()
+
+bd_saldos %>% 
+  filter(str_detect(cargo, "Dip")) %>% 
+  group_by(dummy_ci) %>% 
+  summarise(porcentaje = (sum(por_tope > 40)/n())*100) %>% 
+  ungroup()
