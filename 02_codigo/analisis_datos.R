@@ -45,8 +45,8 @@ bd_ingresos %>%
                   y = fct_rev(cargo_de_eleccion)),
               size = 2,
               height = 0.1, 
-              color = "salmon",
-              alpha = 0.7) +
+              color = "grey30",
+              alpha = 0.8) +
   scale_x_continuous(limits = c(-1, 103),
                      breaks = c(seq(0, 100, 10)), 
                      expand = c(0, 0)) +
@@ -87,8 +87,8 @@ bd_ingresos %>%
                   y = fct_rev(cargo_de_eleccion)),
               size = 2,
               height = 0.1, 
-              color = "salmon",
-              alpha = 0.7) +
+              color = "grey30",
+              alpha = 0.8) +
   scale_x_continuous(limits = c(-1, 103),
                      breaks = c(seq(0, 100, 10)), 
                      expand = c(0, 0)) +
@@ -145,8 +145,8 @@ bd_saldos %>%
                      breaks = c(seq(0, 100, 10), 125, 150), 
                      expand = c(0, 0)) +
   scale_y_continuous(breaks = 1:3, labels = rev(lista_cargos)) +
-  scale_color_manual(values = c("salmon", "grey70")) +
-  scale_alpha_manual(values = c(0.7, 0.4)) +
+  scale_color_manual(values = c("grey30", "grey80")) +
+  scale_alpha_manual(values = c(0.7, 0.2)) +
   guides(colour = guide_legend(override.aes = list(size = 5)),
          alpha = FALSE) +
   # facet_zoom(x = por_tope < 115) +
